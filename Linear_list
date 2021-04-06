@@ -95,3 +95,41 @@ ADT List{
     ++L.length; //表长增1
     return OK;
   }//ListInsert_Sq
+
+
+  //在线性表中删除元素
+  Status ListDelete_Sq(SqList &L,int i,Elemtype &e){
+    if((i<1)||(i>L.length))  return ERROR;  //I值不合法
+    p = &(L.elem[i-1]); //P为删除元素的位置
+    e = *p; //被删除元素的值赋给E
+    q = L.elem + L.length-1;  //表尾元素的位置
+    for(++p;p<=q;++p)  *(p-1)=*p; //被删除元素之后的元素左移
+    --L.length; //表长减1
+    return OK;
+  }//ListDelete_Sq
+  
+  
+  //在顺序表中查找第1个值与E满足compare（）的元素的位序
+  int LocateElem_Sq(SqList L,ElemType e,Status(*compare)(ElemType,ElemType){
+    i = 1;
+    p = L.elem;
+    while(i <= L.length&&!(*compare)(*p++,e))  ++i;
+    if(i<=L.length)   return i;
+    else return();
+  }//LocateElem_Sq
+  
+  //顺序表的合并
+  void MergeList_Sq(SqList La,SqList Lb,SqList Lc){
+    pa = La.elem; pb = Lb.elem;
+    Lc.listsize = Lc.length = La.length + Lb.length;
+    pc = Lc.elem = (ElemType*)malloc(Lc.listsize*sizeof(ElemType));
+    if(!Lc.elem)exit(OVERFLOW);
+    pa_last = La.elem + La.length - 1;
+    pb_last = Lb.elem + Lb.length - 1;
+    while(pa <= pa_last&&pb <= pb_last){  //归并
+      if(*pa <= *pb)  *pc++=*pa++;
+      else *pc++=*pb++;
+    }
+    while(pa <= pa_last) *pc++=*pa++;
+    while(pb <= pb_last) *pc+==*pb++;
+  }//MergeList_Sq
